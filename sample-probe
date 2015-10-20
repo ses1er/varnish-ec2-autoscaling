@@ -1,0 +1,5 @@
+.url = "/healthcheck";
+.timeout = 5s;
+.interval = 10s;
+.window = 5;
+.threshold = 3;
