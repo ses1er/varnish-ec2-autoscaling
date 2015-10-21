@@ -73,7 +73,7 @@ fi
 
 # Alright, let's go!
 
-INSTANCE_IPS=$(aws ec2 describe-instances --region $REGION  --filters "Name=tag:$TAGNAME,Values=$TAGVALUE" --query Reservations[].Instances[].PrivateIpAddress --output text)
+INSTANCE_IPS=$(aws ec2 describe-instances --region $REGION  --filters "Name=tag:$TAGNAME,Values=$TAGVALUE" --query Reservations[].Instances[].PrivateIpAddress --output text | sort -n)
 
 INDEX=0
 echo "#" > $TEMPVCL
