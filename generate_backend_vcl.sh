@@ -73,8 +73,7 @@ fi
 
 # Alright, let's go!
 
-INSTANCE_IDS=$(aws ec2 describe-tags --region $REGION  --filters "Name=resource-type,Values=instance" "Name=key,Values=$TAGNAME" "Name=value,Values=$TAGVALUE" | jq -r ".Tags[].ResourceId" | sort -n)
-INSTANCE_IPS=$(for ID in $INSTANCE_IDS; do aws ec2 describe-instances --region $REGION --instance-ids $ID --query Reservations[].Instances[].PrivateIpAddress --output text; done;)
+INSTANCE_IPS=$(aws ec2 describe-instances --region $REGION  --filters "Name=tag:$TAGNAME,Values=$TAGVALUE" --query Reservations[].Instances[].PrivateIpAddress --output text)
 
 INDEX=0
 echo "#" > $TEMPVCL
