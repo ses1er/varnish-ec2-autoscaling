@@ -3,8 +3,9 @@ This script will generate a round-robin backend director based on EC2 tag name a
 ## Dependencies
 1. aws-cli - environment variables must be set for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, or have IAM role with the following permission: "ec2:Describe*"
 2. md5sum - can easily be installed via system package management, yum or apt-get
-3. varnish 4.0 - this is obvious, but make sure it is working without this script first.
-4. RELOAD_VCL=1 - ensure RELOAD_VCL=1 exists in your varnish.params file.
+3. jq - used to parse JSON output from aws-cli 
+4. varnish 4.0 - this is obvious, but make sure it is working without this script first.
+5. RELOAD_VCL=1 - ensure RELOAD_VCL=1 exists in your varnish.params file.
 
 ## Usage
 
