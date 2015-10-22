@@ -9,7 +9,6 @@
 # -> aws-cli - environment variables must be set for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, or have IAM
 #              role with the following permission: "ec2:Describe*"
 # -> md5sum - can easily be installed via system package management, yum or apt-get
-# -> jq - used to parse JSON output from aws-cli
 # -> varnish 4.0 - this is obvious, but make sure it is working without this script first.
 # -> RELOAD_VCL=1 - ensure RELOAD_VCL=1 exists in your varnish.params file.
 #
@@ -61,11 +60,6 @@ if [ ! `which md5sum` ] &>/dev/null; then
   exit 1
 fi
 
-if [ ! `which jq` ] &>/dev/null; then
-  echo "jq not found in your PATH! exiting"
-  exit 1
-fi
-
 if [ ! `which varnish_reload_vcl` ] &>/dev/null; then
   echo "varnish_reload_vcl not found in your PATH! exiting"
   exit 1
@@ -73,7 +67,7 @@ fi
 
 # Alright, let's go!
 
-INSTANCE_IPS=$(aws ec2 describe-instances --region $REGION  --filters "Name=tag:$TAGNAME,Values=$TAGVALUE" --query Reservations[].Instances[].PrivateIpAddress --output text | sort -n)
+INSTANCE_IPS=$(aws ec2 describe-instances --region $REGION  --filters "Name=tag:$TAGNAME,Values=$TAGVALUE" --query Reservations[].Instances[].PrivateIpAddress --output text|tr "\t" "\n"|sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4)
 
 INDEX=0
 echo "#" > $TEMPVCL
